@@ -93,7 +93,7 @@ def init_git_win() {
 
 stage("Sanity Check") {
   timeout(time: max_time, unit: 'MINUTES') {
-    node('CPU') {
+    node('master') {
       ws(per_exec_ws("tvm/sanity")) {
         init_git()
         sh "${docker_run} ${ci_lint}  ./tests/scripts/task_lint.sh"
@@ -141,7 +141,7 @@ def unpack_lib(name, libs) {
 
 stage('Build') {
   parallel 'BUILD: GPU': {
-    node('GPUBUILD') {
+    node('master') {
       ws(per_exec_ws("tvm/build-gpu")) {
         init_git()
         sh "${docker_run} ${ci_gpu} ./tests/scripts/task_config_build_gpu.sh"
@@ -154,7 +154,7 @@ stage('Build') {
     }
   },
   'BUILD: CPU': {
-    node('CPU') {
+    node('master') {
       ws(per_exec_ws("tvm/build-cpu")) {
         init_git()
         sh "${docker_run} ${ci_cpu} ./tests/scripts/task_config_build_cpu.sh"
@@ -172,7 +172,7 @@ stage('Build') {
     }
     },
   'BUILD: WASM': {
-    node('CPU') {
+    node('master') {
       ws(per_exec_ws("tvm/build-wasm")) {
         init_git()
         sh "${docker_run} ${ci_wasm} ./tests/scripts/task_config_build_wasm.sh"
@@ -184,7 +184,7 @@ stage('Build') {
     }
   },
   'BUILD : i386': {
-    node('CPU') {
+    node('master') {
       ws(per_exec_ws("tvm/build-i386")) {
         init_git()
         sh "${docker_run} ${ci_i386} ./tests/scripts/task_config_build_i386.sh"
@@ -210,7 +210,7 @@ stage('Unit Test') {
     }
   },
   'python3: i386': {
-    node('CPU') {
+    node('master') {
       ws(per_exec_ws("tvm/ut-python-i386")) {
         init_git()
         unpack_lib('i386', tvm_multilib)
@@ -223,7 +223,7 @@ stage('Unit Test') {
     }
   },
   'java: GPU': {
-    node('GPU') {
+    node('master') {
       ws(per_exec_ws("tvm/ut-java")) {
         init_git()
         unpack_lib('gpu', tvm_multilib)
@@ -237,7 +237,7 @@ stage('Unit Test') {
 
 stage('Integration Test') {
   parallel 'topi: GPU': {
-    node('GPU') {
+    node('master') {
       ws(per_exec_ws("tvm/topi-python-gpu")) {
         init_git()
         unpack_lib('gpu', tvm_multilib)
@@ -247,8 +247,8 @@ stage('Integration Test') {
       }
     }
   },
-  'frontend: GPU': {
-    node('GPU') {
+  'frontend: master': {
+    node('master') {
       ws(per_exec_ws("tvm/frontend-python-gpu")) {
         init_git()
         unpack_lib('gpu', tvm_multilib)
@@ -259,7 +259,7 @@ stage('Integration Test') {
     }
   },
   'docs: GPU': {
-    node('GPU') {
+    node('master') {
       ws(per_exec_ws("tvm/docs-python-gpu")) {
         init_git()
         unpack_lib('gpu', tvm_multilib)
@@ -275,12 +275,12 @@ stage('Integration Test') {
 /*
 stage('Build packages') {
   parallel 'conda CPU': {
-    node('CPU') {
+    node('master') {
       sh "${docker_run} tvmai/conda-cpu ./conda/build_cpu.sh
     }
   },
   'conda cuda': {
-    node('CPU') {
+    node('master') {
       sh "${docker_run} tvmai/conda-cuda90 ./conda/build_cuda.sh
       sh "${docker_run} tvmai/conda-cuda100 ./conda/build_cuda.sh
     }
