@@ -144,9 +144,9 @@ stage('Build') {
     node('master') {
       ws(per_exec_ws("tvm/build-gpu")) {
         init_git()
-        sh "${docker_run} ${ci_gpu} ./tests/scripts/task_config_build_gpu.sh"
-        make(ci_gpu, 'build', '-j2')
-        pack_lib('gpu', tvm_multilib)
+        // sh "${docker_run} ${ci_gpu} ./tests/scripts/task_config_build_gpu.sh"
+        // make(ci_gpu, 'build', '-j2')
+        // pack_lib('gpu', tvm_multilib)
         // compiler test
         sh "${docker_run} ${ci_gpu} ./tests/scripts/task_config_build_gpu_vulkan.sh"
         make(ci_gpu, 'build2', '-j2')
@@ -171,6 +171,7 @@ stage('Build') {
       }
     }
     },
+	/*
   'BUILD: WASM': {
     node('master') {
       ws(per_exec_ws("tvm/build-wasm")) {
@@ -182,6 +183,7 @@ stage('Build') {
         }
       }
     }
+	*/
   },
   'BUILD : i386': {
     node('master') {
