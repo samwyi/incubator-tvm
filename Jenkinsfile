@@ -170,7 +170,7 @@ stage('Build') {
         }
       }
     }
-    },
+  },
 	/*
   'BUILD: WASM': {
     node('master') {
@@ -183,8 +183,7 @@ stage('Build') {
         }
       }
     }
-	*/
-  },
+  },	*/
   'BUILD : i386': {
     node('master') {
       ws(per_exec_ws("tvm/build-i386")) {
