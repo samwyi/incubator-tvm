@@ -155,7 +155,7 @@ stage('Build') {
     }
   },
   */
-  'BUILD: CPU': {
+  parallel 'BUILD: CPU': {
     node('master') {
       ws(per_exec_ws("tvm/build-cpu")) {
         init_git()
