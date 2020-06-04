@@ -165,14 +165,14 @@ stage('Build') {
         timeout(time: max_time, unit: 'MINUTES') {
           //sh "${docker_run} ${ci_cpu} ./tests/scripts/task_python_unittest.sh"
           sh "${docker_run} ${ci_cpu} ./tests/scripts/task_python_integration.sh"
-          sh "${docker_run} ${ci_cpu} ./tests/scripts/task_python_vta_fsim.sh"
-          sh "${docker_run} ${ci_cpu} ./tests/scripts/task_python_vta_tsim.sh"
+          // sh "${docker_run} ${ci_cpu} ./tests/scripts/task_python_vta_fsim.sh"
+          // sh "${docker_run} ${ci_cpu} ./tests/scripts/task_python_vta_tsim.sh"
           sh "${docker_run} ${ci_cpu} ./tests/scripts/task_golang.sh"
           sh "${docker_run} ${ci_cpu} ./tests/scripts/task_rust.sh"
         }
       }
     }
-  },
+  }
 	/*
   'BUILD: WASM': {
     node('master') {
@@ -186,6 +186,7 @@ stage('Build') {
       }
     }
   },	*/
+  /*
   'BUILD : i386': {
     node('master') {
       ws(per_exec_ws("tvm/build-i386")) {
@@ -196,6 +197,7 @@ stage('Build') {
       }
     }
   }
+  */
 }
 /*
 stage('Unit Test') {
