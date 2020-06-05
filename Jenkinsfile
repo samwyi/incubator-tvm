@@ -140,7 +140,7 @@ def unpack_lib(name, libs) {
 }
 
 stage('Build') {
-/*
+
   parallel 'BUILD: GPU': {
     node('master') {
       ws(per_exec_ws("tvm/build-gpu")) {
@@ -154,7 +154,7 @@ stage('Build') {
       }
     }
   },
-  */
+
   parallel 'BUILD: CPU': {
     node('master') {
       ws(per_exec_ws("tvm/build-cpu")) {
